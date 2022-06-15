@@ -6,7 +6,7 @@
 #    By: Vsavilov <Vsavilov@student.42Madrid.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/18 15:11:03 by Vsavilov          #+#    #+#              #
-#    Updated: 2022/05/18 17:43:55 by Vsavilov         ###   ########.fr        #
+#    Updated: 2022/06/15 11:44:42 by Vsavilov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 ###   Program/s name/s   ###
 ############################
 
-NAME = Philosophers
+NAME = philo
 
 LIBFT_NAME = libft.a
 
@@ -24,7 +24,7 @@ LIBFT_NAME = libft.a
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address
 
 CFLAGS += -I ./$(INC_PATH) -I ./$(LIBFT)/inc
 
@@ -44,7 +44,7 @@ LIBFT = libft
 ###   Source items   ###
 ########################
 
-SRCS_NAME = 
+SRCS_NAME = main.c
 
 #####################
 ###   Make rule   ###

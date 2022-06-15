@@ -6,7 +6,7 @@
 /*   By: Vsavilov <Vsavilov@student.42Madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:10:19 by Vsavilov          #+#    #+#             */
-/*   Updated: 2022/05/18 15:10:21 by Vsavilov         ###   ########.fr       */
+/*   Updated: 2022/05/21 09:56:22 by Vsavilov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,8 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <errno.h>
+# include <pthread.h>
+# include <philo/structs.h>
+# include <philo/functions.h>
 
 #endif
