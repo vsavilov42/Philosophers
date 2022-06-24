@@ -6,7 +6,7 @@
 #    By: Vsavilov <Vsavilov@student.42Madrid.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/18 15:11:03 by Vsavilov          #+#    #+#              #
-#    Updated: 2022/06/15 11:44:42 by Vsavilov         ###   ########.fr        #
+#    Updated: 2022/06/22 21:57:22 by Vsavilov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ LIBFT_NAME = libft.a
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g3
 
 CFLAGS += -I ./$(INC_PATH) -I ./$(LIBFT)/inc
 

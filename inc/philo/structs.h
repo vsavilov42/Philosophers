@@ -13,12 +13,13 @@ typedef struct s_table
 typedef struct s_philo
 {	
 	pthread_t	id;
+	size_t		time;
 	int		p_id;
 	int		p_dead;
 	int		p_leat;
 	int		n_rep;
 	pthread_mutex_t	fork;
-	struct		s_philo *left;
+	pthread_mutex_t	msg;
 	struct		s_philo *right;
 	struct		s_table *table;
 }	t_philo;

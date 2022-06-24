@@ -6,7 +6,7 @@
 /*   By: Vsavilov <Vsavilov@student.42Madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:10:19 by Vsavilov          #+#    #+#             */
-/*   Updated: 2022/05/21 09:56:22 by Vsavilov         ###   ########.fr       */
+/*   Updated: 2022/06/22 13:00:48 by Vsavilov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <pthread.h>
+# include <sys/time.h>
 # include <philo/structs.h>
 # include <philo/functions.h>
 
