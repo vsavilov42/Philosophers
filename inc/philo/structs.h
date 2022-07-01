@@ -12,7 +12,7 @@ typedef struct s_table
 
 typedef struct s_philo
 {	
-	pthread_t	id;
+	pthread_t	*id;
 	size_t		time;
 	int		p_id;
 	int		p_dead;
