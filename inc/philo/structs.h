@@ -9,6 +9,7 @@ typedef struct s_table
 	int		t_slp;
 	int		full_eat;
 	int		all_eat;
+	pthread_mutex_t	death;
 	int		dead;
 }	t_table;
 
@@ -16,6 +17,7 @@ typedef struct s_philo
 {	
 	pthread_t	*id;
 	size_t		time;
+	size_t		t_diff_eat;
 	int		p_id;
 	int		p_dead;
 	int		n_rep;
