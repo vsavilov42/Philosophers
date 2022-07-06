@@ -26,7 +26,6 @@ void	philo_sleep(t_philo *philo, size_t t_slp)
 	time = get_time();
 	while (philo->table->dead)
 	{
-		//printf("t_slp[%zu] - time[%zu]\n", t_slp, get_time() - time);
 		if ((get_time() - time) >= t_slp)
 			break ;
 		usleep(100);
@@ -35,20 +34,22 @@ void	philo_sleep(t_philo *philo, size_t t_slp)
 
 void	philo_eat(t_philo *philo)
 {
-	//printf("YO[%d], RIGHT[%d]", philo->p_id, philo->right->p_id);
 	pthread_mutex_lock(&philo->fork);
 	printer_state(philo, 0);
+	printf("Tenedor\n");
 	if (philo->table->n_phl == 1)
 		return ;
 	pthread_mutex_lock(&philo->right->fork);
-	philo->t_diff_eat = get_time();
 	philo_sleep(philo, (size_t)philo->table->t_slp);
 	printer_state(philo, 1);
+	printf("Comer\n");
+	philo->t_diff_eat = get_time();
 	if (philo->n_rep != -1)
 		philo->table->full_eat++;
 	pthread_mutex_unlock(&philo->fork);
 	pthread_mutex_unlock(&philo->right->fork);
 	printer_state(philo, 2);
+	printf("Dormir\n");
 	philo_sleep(philo, (size_t)philo->table->t_slp);
 }
 
@@ -107,23 +108,24 @@ void	create_philo(t_philo **philo)
 	while (++p_tmp < total_philo)
 		if (pthread_create(philo[p_tmp]->id, NULL, &philo_cycle, philo[p_tmp]))
 			printf("ERROR\n");
-	p_tmp = -1;
-	while (++p_tmp < total_philo)
+	/*p_tmp = 0;
+	while (philo[p_tmp]->table->dead)
 	{
+		if (p_tmp == total_philo - 1)
+			p_tmp = 0;
 		pthread_mutex_lock(&philo[p_tmp]->table->death);
 		if ((get_time() - philo[p_tmp]->t_diff_eat) >= (size_t)(*philo)->table->t_eat)
 		{
-		printf("%lu\n", philo[p_tmp]->t_diff_eat);
-			(*philo)->table->dead = 0;
+			philo[p_tmp]->table->dead = 0;
 			printer_state(philo[p_tmp], 4);
 		}
 		pthread_mutex_unlock(&philo[p_tmp]->table->death);
-	}
+		p_tmp++;
+	}*/
 	p_tmp = -1;
 	while (++p_tmp < total_philo)
 		if (pthread_join(*(philo[p_tmp]->id), NULL))
 			printf("ERROR\n");
-
 }
 
 int	parse(t_philo **philo, char **argv)
@@ -182,6 +184,7 @@ void	philos_table(t_philo **philo, t_table *table, int n_rep)
 		philo[i]->p_id = i + 1;
 		philo[i]->table = table;
 		philo[i]->time = get_time();
+		philo[i]->t_diff_eat = 0;
 		philo[i]->n_rep = n_rep;
 		pthread_mutex_init(&philo[i]->fork, NULL);
 		pthread_mutex_init(&philo[i]->msg, NULL);
