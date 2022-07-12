@@ -7,7 +7,6 @@ typedef struct s_table
 	int		t_die;
 	int		t_eat;
 	int		t_slp;
-	int		full_eat;
 	int		all_eat;
 	pthread_mutex_t	death;
 	int		dead;
