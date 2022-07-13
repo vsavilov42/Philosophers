@@ -48,8 +48,8 @@ void	philo_eat(t_philo *philo)
 		return ;
 	pthread_mutex_lock(&philo->right->fork);
 	printer_state(philo, 0);
-	philo->t_diff_eat = get_time();
 	printer_state(philo, 1);
+	philo->t_diff_eat = get_time();
 	philo_sleep(philo, (size_t)philo->table->t_slp);
 	if (philo->n_rep != -1)
 		philo->table->all_eat++;
@@ -93,20 +93,20 @@ void	printer_state(t_philo *philo, int state)
 	{
 		if (state == 0)
 			printf("%lu ms, philo %d, has taken a fork.\n",
-				get_time() - philo->time, philo->p_id);
+				get_time() - philo->table->time, philo->p_id);
 		if (state == 1)
 			printf("%lu ms, philo %d, is eating.\n",
-				get_time() - philo->time, philo->p_id);
+				get_time() - philo->table->time, philo->p_id);
 		if (state == 2)
 			printf("%lu ms, philo %d, is sleeping.\n",
-				get_time() - philo->time, philo->p_id);
+				get_time() - philo->table->time, philo->p_id);
 		if (state == 3)
 			printf("%lu ms, philo %d, is thinking.\n",
-				get_time() - philo->time, philo->p_id);
+				get_time() - philo->table->time, philo->p_id);
 	}
 	if (state == 4)
 		printf("%lu ms, philo %d, died.\n",
-			get_time() - philo->time, philo->p_id);
+			get_time() - philo->table->time, philo->p_id);
 	pthread_mutex_unlock(&philo->msg);
 }
 
@@ -126,7 +126,7 @@ void	create_philo(t_philo **philo)
 		if (p_tmp == total_philo)
 			p_tmp = 0;
 		pthread_mutex_lock(&(*philo)->table->death);
-		if (get_time() - philo[p_tmp]->t_diff_eat >= (size_t)(*philo)->table->t_eat)
+		if (get_time() - philo[p_tmp]->t_diff_eat >= (size_t)(*philo)->table->t_die)
 		{
 			philo[p_tmp]->table->dead = 0;
 			printer_state(philo[p_tmp], 4);
@@ -138,10 +138,9 @@ void	create_philo(t_philo **philo)
 	p_tmp = -1;
 	while (++p_tmp < total_philo)
 		pthread_join(*(philo[p_tmp]->id), NULL);
-	/*p_tmp = -1;
+	p_tmp = -1;
 	while (++p_tmp < total_philo)
 		pthread_mutex_destroy(&philo[p_tmp]->fork);
-*/
 }
 
 int	parse(t_philo **philo, char **argv)
@@ -184,8 +183,7 @@ void	philos_table(t_philo **philo, t_table *table, int n_rep)
 	{
 		philo[i] = (t_philo *)malloc(sizeof(t_philo));
 		philo[i]->id = (pthread_t *)malloc(sizeof(pthread_t));
-		philo[i]->time = get_time();
-		philo[i]->t_diff_eat = 0;
+		philo[i]->t_diff_eat = table->time;
 		philo[i]->p_id = i + 1;
 		philo[i]->n_rep = n_rep;
 		pthread_mutex_init(&philo[i]->fork, NULL);
@@ -208,6 +206,7 @@ void	parse_arg(t_philo **philo, char **argv)
 	table->t_die = ft_atoi(argv[2]);
 	table->t_eat = ft_atoi(argv[3]);
 	table->t_slp = ft_atoi(argv[4]);
+	table->time = get_time();
 	table->all_eat = 0;
 	table->dead = 1;
 	if (argv[5] == NULL)
