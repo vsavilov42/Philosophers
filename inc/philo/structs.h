@@ -18,7 +18,6 @@ typedef struct s_philo
 	size_t		time;
 	size_t		t_diff_eat;
 	int		p_id;
-	int		p_dead;
 	int		n_rep;
 	pthread_mutex_t	fork;
 	pthread_mutex_t	msg;

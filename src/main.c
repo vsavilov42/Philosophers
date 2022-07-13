@@ -49,6 +49,7 @@ void	philo_eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->right->fork);
 	printer_state(philo, 2);
 	philo_sleep(philo, (size_t)philo->table->t_slp);
+	printer_state(philo, 3);
 }
 
 void	*philo_cycle(void *arg)
@@ -60,13 +61,12 @@ void	*philo_cycle(void *arg)
 		usleep(100);
 	while (philo->table->dead)
 	{
-		if (philo->n_rep != -1 && philo->table->all_eat >= (philo->table->n_phl * philo->n_rep))
+		if ((philo->n_rep != -1) &&
+			philo->table->all_eat >= (philo->table->n_phl * philo->n_rep))
 			return (NULL);
 		philo_eat(philo);
 		if (philo->table->n_phl == 1)
 			return (NULL);
-		if (philo->table->n_phl > 1)
-			printer_state(philo, 3);
 	}
 	return (NULL);
 }
@@ -101,14 +101,11 @@ void	create_philo(t_philo **philo)
 	int	p_tmp;
 	int	total_philo;
 
-	total_philo = philo[0]->table->n_phl;
+	total_philo = (*philo)->table->n_phl;
 	p_tmp = -1;
-	while (++p_tmp < total_philo) {
-		printf("A. Full_eat [%d], Philo id[%d]\n", philo[p_tmp]->table->all_eat, philo[p_tmp]->p_id);
+	while (++p_tmp < total_philo)
 		if (pthread_create(philo[p_tmp]->id, NULL, &philo_cycle, philo[p_tmp]))
 			printf("ERROR\n");
-	}
-	p_tmp = 0;
 	while ((*philo)->table->dead)
 	{
 		if (p_tmp == total_philo)
@@ -116,8 +113,7 @@ void	create_philo(t_philo **philo)
 		pthread_mutex_lock(&(*philo)->table->death);
 		if (get_time() - philo[p_tmp]->t_diff_eat >= (size_t)(*philo)->table->t_eat)
 		{
-			printf("SE MURIO\n");
-			(*philo)->table->dead = 0;
+			philo[p_tmp]->table->dead = 0;
 			printer_state(philo[p_tmp], 4);
 		}
 		pthread_mutex_unlock(&(*philo)->table->death);
@@ -127,9 +123,10 @@ void	create_philo(t_philo **philo)
 	p_tmp = -1;
 	while (++p_tmp < total_philo)
 		pthread_join(*(philo[p_tmp]->id), NULL);
-	p_tmp = -1;
+	/*p_tmp = -1;
 	while (++p_tmp < total_philo)
 		pthread_mutex_destroy(&philo[p_tmp]->fork);
+*/
 }
 
 int	parse(t_philo **philo, char **argv)
@@ -162,19 +159,6 @@ int	parse_no_num(char **argv)
 	}
 	return (0);
 }
-//TEMP PRINT PHILOS
-
-/*static void print_philos(t_philo **philo)
-{
-	int i = -1;
-	t_philo	**tmp = philo;
-
-	while (++i < 10)
-	{
-		printf("Este es el philo [%d], Memory [%p]\n", tmp[i]->p_id, &philo[i]->table->full_eat);
-		*tmp = (*tmp)->right;
-	}	
-}*/
 
 void	philos_table(t_philo **philo, t_table *table, int n_rep)
 {
@@ -184,44 +168,39 @@ void	philos_table(t_philo **philo, t_table *table, int n_rep)
 	while (++i < table->n_phl)
 	{
 		philo[i] = (t_philo *)malloc(sizeof(t_philo));
-		philo[i]->id = (pthread_t *)malloc(table->n_phl * sizeof(pthread_t));
-		philo[i]->p_id = i + 1;
-		philo[i]->table = table;
+		philo[i]->id = (pthread_t *)malloc(sizeof(pthread_t));
 		philo[i]->time = get_time();
 		philo[i]->t_diff_eat = 0;
+		philo[i]->p_id = i + 1;
 		philo[i]->n_rep = n_rep;
 		pthread_mutex_init(&philo[i]->fork, NULL);
 		pthread_mutex_init(&philo[i]->msg, NULL);
+		philo[i]->table = table;
 	}
 	i = -1;
 	while (++i < table->n_phl - 1)
-	{
 		philo[i]->right = philo[i + 1];
-	}
 	philo[i]->right = philo[0];
-//	print_philos(philo);
 }
 
 void	parse_arg(t_philo **philo, char **argv)
 {
-	t_table	table;
+	t_table	*table;
 	int	n_rep;
 
-	table.n_phl = ft_atoi(argv[1]);
-	table.t_die = ft_atoi(argv[2]);
-	table.t_eat = ft_atoi(argv[3]);
-	table.t_slp = ft_atoi(argv[4]);
-	table.dead = 1;
-	table.all_eat = 0;
+	table = (t_table *)malloc(sizeof(t_table));
+	table->n_phl = ft_atoi(argv[1]);
+	table->t_die = ft_atoi(argv[2]);
+	table->t_eat = ft_atoi(argv[3]);
+	table->t_slp = ft_atoi(argv[4]);
+	table->all_eat = 0;
+	table->dead = 1;
 	if (argv[5] == NULL)
 		n_rep = -1;
 	else
-	{
 		n_rep = ft_atoi(argv[5]);
-		table.all_eat = table.n_phl * n_rep;
-	}
-	pthread_mutex_init(&table.death, NULL);
-	philos_table(philo, &table, n_rep);
+	pthread_mutex_init(&table->death, NULL);
+	philos_table(philo, table, n_rep);
 }
 
 size_t	get_time(void)
