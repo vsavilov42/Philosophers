@@ -13,6 +13,7 @@ void	printer_state(t_philo *philo, int state);
 void	*philo_cycle(void *arg);
 void	philo_eat(t_philo *philo);
 void	philo_sleep(t_philo *philo, size_t t_slp);
+void	free_all(t_philo **philo, int n_phl);
 
 void	leaks(void);
 

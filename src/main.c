@@ -4,14 +4,28 @@ int main(int argc, char **argv)
 {
 	t_philo	**philo;
 
-	//atexit(leaks);
+	atexit(leaks);
 	if (argc < 5 || argc > 6)
 		return (error_arg_msg());
 	philo = (t_philo **)malloc(sizeof(t_philo *) * ft_atoi(argv[1]));
 	if (!parse(philo, argv))
 		create_philo(philo);
-	free(philo);
+	free_all(philo, (*philo)->table->n_phl);
 	return (0);
+}
+
+void	free_all(t_philo **philo, int n_phl)
+{
+	int	i;
+
+	i = -1;
+	free((*philo)->table);
+	while (++i < n_phl)
+	{
+		free(philo[i]->id);
+		free(philo[i]);
+	}
+	free(philo);
 }
 
 void	leaks(void)
