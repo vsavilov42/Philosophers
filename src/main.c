@@ -4,7 +4,6 @@ int main(int argc, char **argv)
 {
 	t_philo	**philo;
 
-	atexit(leaks);
 	if (argc < 5 || argc > 6)
 		return (error_arg_msg());
 	philo = (t_philo **)malloc(sizeof(t_philo *) * ft_atoi(argv[1]));
@@ -28,11 +27,6 @@ void	free_all(t_philo **philo, int n_phl)
 	free(philo);
 }
 
-void	leaks(void)
-{
-	system("leaks -q philo");
-}
-
 void	philo_sleep(t_philo *philo, size_t t_slp)
 {
 	size_t	time;
@@ -53,7 +47,7 @@ void	philo_eat(t_philo *philo)
 	if (philo->table->n_phl == 1)
 		return ;
 	pthread_mutex_lock(&philo->right->fork);
-	printer_state(philo->right, 0);
+	printer_state(philo, 0);
 	philo->t_diff_eat = get_time();
 	printer_state(philo, 1);
 	philo_sleep(philo, (size_t)philo->table->t_slp);
@@ -73,8 +67,15 @@ void	*philo_cycle(void *arg)
 	philo = (t_philo *)arg;
 	if (philo->p_id % 2 == 0)
 		usleep(100);
-	while (philo->table->dead)
+	while (1)
 	{
+		pthread_mutex_lock(&philo->table->death);
+		if (philo->table->dead == 0)
+		{
+			pthread_mutex_unlock(&philo->table->death);
+			break ;
+		}
+		pthread_mutex_unlock(&philo->table->death);
 		if ((philo->n_rep != -1) &&
 			philo->table->all_eat >= (philo->table->n_phl * philo->n_rep))
 			return (NULL);
