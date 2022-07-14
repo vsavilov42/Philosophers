@@ -6,7 +6,7 @@
 #    By: Vsavilov <Vsavilov@student.42Madrid.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/18 15:11:03 by Vsavilov          #+#    #+#              #
-#    Updated: 2022/07/14 12:35:05 by Vsavilov         ###   ########.fr        #
+#    Updated: 2022/07/14 12:45:36 by Vsavilov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,10 @@ INC_PATH = inc
 ########################
 
 SRCS_NAME = main.c \
+	    parse.c \
+	    philo.c \
+	    philo_utils.c \
+	    printer.c \
 	    libft_utils.c
 
 ##########################
