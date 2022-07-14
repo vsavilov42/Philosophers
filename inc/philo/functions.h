@@ -1,6 +1,11 @@
 #ifndef FUNCTIONS_H
 # define FUNCTIONS_H
 
+/* libft_utils.c */
+
+int	ft_atoi(const char *str);
+int	ft_isdigit(int c);
+
 int	error_arg_msg(void);
 int	parse(t_philo **philo, char **argv);
 int	parse_no_num(char **argv);
@@ -14,7 +19,5 @@ void	*philo_cycle(void *arg);
 void	philo_eat(t_philo *philo);
 void	philo_sleep(t_philo *philo, size_t t_slp);
 void	free_all(t_philo **philo, int n_phl);
-
-void	leaks(void);
 
 #endif

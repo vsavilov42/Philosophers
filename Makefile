@@ -6,7 +6,7 @@
 #    By: Vsavilov <Vsavilov@student.42Madrid.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/18 15:11:03 by Vsavilov          #+#    #+#              #
-#    Updated: 2022/07/13 12:35:27 by Vsavilov         ###   ########.fr        #
+#    Updated: 2022/07/14 12:35:05 by Vsavilov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,9 @@ CC = gcc
 
 CFLAGS = -Wall -Werror -Wextra
 
-CFLAGS += -I ./$(INC_PATH) -I ./$(LIBFT)/inc
+CFLAGS += -I ./$(INC_PATH)
+
+CFLAGS += -fsanitize=address
 
 #################
 ###   Paths   ###
@@ -38,19 +40,12 @@ OBJ_PATH = obj
 
 INC_PATH = inc
 
-LIBFT = libft
-
 ########################
 ###   Source items   ###
 ########################
 
-SRCS_NAME = main.c
-
-#####################
-###   Make rule   ###
-#####################
-
-MAKE = make
+SRCS_NAME = main.c \
+	    libft_utils.c
 
 ##########################
 ###   Create objects   ###
@@ -78,23 +73,12 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c | $(OBJ_PATH)
 $(OBJ_PATH):
 	mkdir -p $(OBJ_PATH) 2> /dev/null
 
-$(LIBS_DIR):
-	mkdir -p $(LIBS-DIR) 2> /dev/null
-
-#########################
-###   Compile libs   ###
-#########################
-
-$(LIBFT_NAME):
-	$(MAKE) all -sC $(LIBFT)
-	cp -r $(addprefix $(LIBFT)/, $(LIBFT_NAME)) $(LIBFT_NAME)
-
 #####################
 ###   Compile.o   ###
 #####################
 
-$(NAME): $(LIBFT_NAME) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT_NAME)
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
 #######################
 ###   Other rules   ###
@@ -104,9 +88,7 @@ clean:
 	rm -rf $(OBJ_PATH)
 
 fclean: clean
-	$(MAKE) fclean -sC $(LIBFT)
 	rm -rf $(NAME)
-	rm $(LIBFT_NAME)
 
 re: fclean all
 

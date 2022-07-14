@@ -6,14 +6,13 @@
 /*   By: Vsavilov <Vsavilov@student.42Madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 15:10:19 by Vsavilov          #+#    #+#             */
-/*   Updated: 2022/06/22 13:00:48 by Vsavilov         ###   ########.fr       */
+/*   Updated: 2022/07/14 12:17:49 by Vsavilov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
-# include <libft.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
