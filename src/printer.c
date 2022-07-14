@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   printer.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vsavilov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/14 13:01:48 by vsavilov          #+#    #+#             */
+/*   Updated: 2022/07/14 13:28:10 by vsavilov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <Philosophers.h>
 
-int	error_arg_msg()
+int	error_arg_msg(void)
 {
-	write(1, "Usage: num of philo; time to die; time to eat; time to sleep; [optional] number of times each philo eats\n", 105);
+	write(1, "Usage: num of philo; time to die; time to eat; time to", 54);
+	write(1, " sleep; [optional] number of times each philo eats\n", 52);
 	return (0);
 }
 

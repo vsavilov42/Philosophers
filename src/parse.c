@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vsavilov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/14 13:01:30 by vsavilov          #+#    #+#             */
+/*   Updated: 2022/07/14 13:17:16 by vsavilov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <Philosophers.h>
 
 void	parse_arg(t_philo **philo, char **argv)
 {
 	t_table	*table;
-	int	n_rep;
+	int		n_rep;
 
 	table = (t_table *)malloc(sizeof(t_table));
 	table->n_phl = ft_atoi(argv[1]);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vsavilov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/14 13:01:35 by vsavilov          #+#    #+#             */
+/*   Updated: 2022/07/14 13:19:19 by vsavilov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <Philosophers.h>
 
 void	philos_table(t_philo **philo, t_table *table, int n_rep)
@@ -22,6 +34,27 @@ void	philos_table(t_philo **philo, t_table *table, int n_rep)
 	philo[i]->right = philo[0];
 }
 
+void	dead_check(t_philo **philo, int total_philo)
+{
+	int	i;
+
+	i = 0;
+	while ((*philo)->table->dead)
+	{
+		if (i == total_philo)
+			i = 0;
+		pthread_mutex_lock(&(*philo)->table->death);
+		if (get_time() - philo[i]->t_diff_eat >= (size_t)(*philo)->table->t_die)
+		{
+			philo[i]->table->dead = 0;
+			printer_state(philo[i], 4);
+		}
+		pthread_mutex_unlock(&(*philo)->table->death);
+		usleep(100);
+		i++;
+	}
+}
+
 void	create_philo(t_philo **philo)
 {
 	int	p_tmp;
@@ -32,20 +65,7 @@ void	create_philo(t_philo **philo)
 	while (++p_tmp < total_philo)
 		if (pthread_create(philo[p_tmp]->id, NULL, &philo_cycle, philo[p_tmp]))
 			printf("ERROR\n");
-	while ((*philo)->table->dead)
-	{
-		if (p_tmp == total_philo)
-			p_tmp = 0;
-		pthread_mutex_lock(&(*philo)->table->death);
-		if (get_time() - philo[p_tmp]->t_diff_eat >= (size_t)(*philo)->table->t_die)
-		{
-			philo[p_tmp]->table->dead = 0;
-			printer_state(philo[p_tmp], 4);
-		}
-		pthread_mutex_unlock(&(*philo)->table->death);
-		usleep(100);
-		p_tmp++;
-	}
+	dead_check(philo, total_philo);
 	p_tmp = -1;
 	while (++p_tmp < total_philo)
 		pthread_join(*(philo[p_tmp]->id), NULL);
@@ -70,8 +90,9 @@ void	*philo_cycle(void *arg)
 			break ;
 		}
 		pthread_mutex_unlock(&philo->table->death);
-		if ((philo->n_rep != -1) &&
-			philo->table->all_eat >= (philo->table->n_phl * philo->n_rep))
+		if ((philo->n_rep != -1)
+			&& philo->table->all_eat
+			>= (philo->table->n_phl * philo->n_rep))
 			return (NULL);
 		philo_eat(philo);
 		if (philo->table->n_phl == 1)
