@@ -6,7 +6,7 @@
 #    By: Vsavilov <Vsavilov@student.42Madrid.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/18 15:11:03 by Vsavilov          #+#    #+#              #
-#    Updated: 2022/07/14 13:06:35 by vsavilov         ###   ########.fr        #
+#    Updated: 2022/07/14 17:28:06 by Vsavilov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ CFLAGS = -Wall -Werror -Wextra
 
 CFLAGS += -I ./$(INC_PATH)
 
-CFLAGS += -fsanitize=address
+CFLAGS += -glldb #-g3 -fsanitize=address
 
 #################
 ###   Paths   ###

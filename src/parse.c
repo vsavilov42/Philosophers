@@ -6,7 +6,7 @@
 /*   By: vsavilov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 13:01:30 by vsavilov          #+#    #+#             */
-/*   Updated: 2022/07/14 13:17:16 by vsavilov         ###   ########.fr       */
+/*   Updated: 2022/07/14 17:16:09 by Vsavilov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	parse_no_num(char **argv)
 
 	j = 1;
 	i = 0;
-	while (argv[j][i])
+	while (argv[j])
 	{
 		i = 0;
 		while (argv[j][i])
