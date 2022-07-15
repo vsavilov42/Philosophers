@@ -6,7 +6,7 @@
 #    By: Vsavilov <Vsavilov@student.42Madrid.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/18 15:11:03 by Vsavilov          #+#    #+#              #
-#    Updated: 2022/07/14 17:28:06 by Vsavilov         ###   ########.fr        #
+#    Updated: 2022/07/14 17:41:01 by Vsavilov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,19 +16,17 @@
 
 NAME = philo
 
-LIBFT_NAME = libft.a
-
 ##############################
 ###   Compiler and flags   ###
 ##############################
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -O3
 
 CFLAGS += -I ./$(INC_PATH)
 
-CFLAGS += -glldb #-g3 -fsanitize=address
+#CFLAGs += -fsanitize=address
 
 #################
 ###   Paths   ###

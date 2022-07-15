@@ -6,7 +6,7 @@
 /*   By: vsavilov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 13:01:35 by vsavilov          #+#    #+#             */
-/*   Updated: 2022/07/14 13:19:19 by vsavilov         ###   ########.fr       */
+/*   Updated: 2022/07/15 11:57:19 by Vsavilov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,12 @@ void	philos_table(t_philo **philo, t_table *table, int n_rep)
 void	dead_check(t_philo **philo, int total_philo)
 {
 	int	i;
+	int	tmp;
 
 	i = 0;
+	tmp = 1;
+	if ((*philo)->n_rep != -1)
+		tmp = (*philo)->n_rep;
 	while ((*philo)->table->dead)
 	{
 		if (i == total_philo)
@@ -47,11 +51,12 @@ void	dead_check(t_philo **philo, int total_philo)
 		if (get_time() - philo[i]->t_diff_eat >= (size_t)(*philo)->table->t_die)
 		{
 			philo[i]->table->dead = 0;
-			printer_state(philo[i], 4);
+			if ((*philo)->table->all_eat < tmp * total_philo)
+				printer_state(philo[i], 4);
 		}
 		pthread_mutex_unlock(&(*philo)->table->death);
-		usleep(100);
 		i++;
+		usleep(10);
 	}
 }
 
