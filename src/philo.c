@@ -6,7 +6,7 @@
 /*   By: vsavilov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 13:01:35 by vsavilov          #+#    #+#             */
-/*   Updated: 2022/07/15 12:02:38 by Vsavilov         ###   ########.fr       */
+/*   Updated: 2022/07/19 17:09:18 by Vsavilov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	dead_check(t_philo **philo, int total_philo)
 		}
 		pthread_mutex_unlock(&(*philo)->table->death);
 		i++;
-		usleep(10);
+		usleep(100);
 	}
 }
 
@@ -116,7 +116,7 @@ void	philo_eat(t_philo *philo)
 	printer_state(philo, 0);
 	printer_state(philo, 1);
 	philo->t_diff_eat = get_time();
-	philo_sleep(philo, (size_t)philo->table->t_slp);
+	philo_sleep(philo, (size_t)philo->table->t_eat);
 	if (philo->n_rep != -1)
 		philo->table->all_eat++;
 	pthread_mutex_unlock(&philo->fork);
